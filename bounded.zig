@@ -34,6 +34,12 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
         pub fn real(a: A) Real {
             return @as(Real, a.repr) + minimum;
         }
+
+        pub fn format(a: A, comptime fmt: []const u8, options: std.fmt.FormatOptions, writer: anytype) !void {
+            _ = fmt;
+            _ = options;
+            return std.fmt.formatInt(a.real(), 10, .lower, .{}, writer);
+        }
     };
 }
 
