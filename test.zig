@@ -7,14 +7,13 @@ fn expect(
     comptime z_max: comptime_int,
     comptime z_repr: comptime_int,
     comptime z_real: comptime_int,
-    comptime z_fmt: []const u8,
 ) !void {
     const Z = @TypeOf(z);
     try std.testing.expect(Z.min == z_min);
     try std.testing.expect(Z.max == z_max);
     try std.testing.expect(z.repr == z_repr);
     try std.testing.expect(z.real() == z_real);
-    try std.testing.expectFmt(z_fmt, "{}", .{z});
+    try std.testing.expectFmt(std.fmt.comptimePrint("{d}", .{z_real}), "{}", .{z});
 }
 
 test {
@@ -27,7 +26,6 @@ test {
         10,
         0,
         10,
-        "10",
     );
 }
 
@@ -41,7 +39,6 @@ test "int.add" {
         107,
         46,
         44,
-        "44",
     );
 }
 
@@ -55,7 +52,6 @@ test "int.add minimum" {
         107,
         0,
         -2,
-        "-2",
     );
 }
 
@@ -69,7 +65,6 @@ test "int.add maximum" {
         107,
         109,
         107,
-        "107",
     );
 }
 
@@ -83,6 +78,5 @@ test "int.add const" {
         30,
         0,
         30,
-        "30",
     );
 }
