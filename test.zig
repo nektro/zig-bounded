@@ -8,6 +8,7 @@ test {
     try std.testing.expect(X.max == 10);
     try std.testing.expect(X.Repr == u0);
     try std.testing.expect(x.repr == 0);
+    try std.testing.expect(x.real() == 10);
 }
 
 test "int.add" {
@@ -19,6 +20,7 @@ test "int.add" {
     try std.testing.expect(Z.min == -2);
     try std.testing.expect(Z.max == 107);
     try std.testing.expect(z.repr == 46);
+    try std.testing.expect(z.real() == 44);
 }
 
 test "int.add minimum" {
@@ -30,6 +32,7 @@ test "int.add minimum" {
     try std.testing.expect(Z.min == -2);
     try std.testing.expect(Z.max == 107);
     try std.testing.expect(z.repr == 0);
+    try std.testing.expect(z.real() == -2);
 }
 
 test "int.add maximum" {
@@ -41,6 +44,7 @@ test "int.add maximum" {
     try std.testing.expect(Z.min == -2);
     try std.testing.expect(Z.max == 107);
     try std.testing.expect(z.repr == 109);
+    try std.testing.expect(z.real() == 107);
 }
 
 test "int.add const" {
@@ -52,4 +56,5 @@ test "int.add const" {
     try std.testing.expect(Z.min == 30);
     try std.testing.expect(Z.max == 30);
     try std.testing.expect(z.repr == 0);
+    try std.testing.expect(z.real() == 30);
 }

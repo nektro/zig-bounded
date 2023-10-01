@@ -12,6 +12,7 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
         pub const min = minimum;
         pub const max = maximum;
         pub const Repr = std.math.IntFittingRange(0, max - min);
+        pub const Real = std.math.IntFittingRange(min, max);
 
         pub fn from(x: anytype) A {
             const X = @TypeOf(x);
@@ -28,6 +29,10 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
             const R = int(A.min + @TypeOf(b).min, A.max + @TypeOf(b).max);
             const P = R.Repr;
             return .{ .repr = @as(P, a.repr) + @as(P, b.repr) };
+        }
+
+        pub fn real(a: A) Real {
+            return @as(Real, a.repr) + minimum;
         }
     };
 }
