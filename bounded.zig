@@ -21,6 +21,13 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
                 else => unreachable,
             }
         }
+
+        pub fn add(a: Self, b: anytype) int(Self.min + @TypeOf(b).min, Self.max + @TypeOf(b).max) {
+            @setRuntimeSafety(false);
+            const R = int(Self.min + @TypeOf(b).min, Self.max + @TypeOf(b).max);
+            const P = R.Repr;
+            return .{ .repr = @as(P, a.repr) + @as(P, b.repr) };
+        }
     };
 }
 
