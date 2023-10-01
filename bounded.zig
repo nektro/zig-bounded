@@ -7,13 +7,13 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
     return packed struct {
         repr: Repr,
 
-        const Self = @This();
+        const A = @This();
 
         pub const min = minimum;
         pub const max = maximum;
         pub const Repr = std.math.IntFittingRange(0, max - min);
 
-        pub fn from(x: anytype) Self {
+        pub fn from(x: anytype) A {
             const X = @TypeOf(x);
             switch (@typeInfo(X)) {
                 .ComptimeInt => {
@@ -23,9 +23,9 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
             }
         }
 
-        pub fn add(a: Self, b: anytype) int(Self.min + @TypeOf(b).min, Self.max + @TypeOf(b).max) {
+        pub fn add(a: A, b: anytype) int(A.min + @TypeOf(b).min, A.max + @TypeOf(b).max) {
             @setRuntimeSafety(builtin.mode == .Debug);
-            const R = int(Self.min + @TypeOf(b).min, Self.max + @TypeOf(b).max);
+            const R = int(A.min + @TypeOf(b).min, A.max + @TypeOf(b).max);
             const P = R.Repr;
             return .{ .repr = @as(P, a.repr) + @as(P, b.repr) };
         }
