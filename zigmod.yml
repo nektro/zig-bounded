@@ -1,0 +1,6 @@
+id: pryuxpqzem8ds3lja4rdr2swxox5n2upsi5atoxcdsgykn8d
+name: bounded
+main: bounded.zig
+license: MIT
+description: A runtime bounded integers library
+dependencies:
