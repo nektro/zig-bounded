@@ -12,7 +12,7 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
         pub const min = minimum;
         pub const max = maximum;
         pub const Repr = std.math.IntFittingRange(0, max - min);
-        pub const Real = std.math.IntFittingRange(min, max);
+        pub const Real = std.math.IntFittingRange(@min(min, 0), @max(max, std.math.maxInt(Repr)));
 
         pub fn from(x: anytype) A {
             const X = @TypeOf(x);
@@ -32,13 +32,30 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
         }
 
         pub fn real(a: A) Real {
-            return @as(Real, a.repr) + minimum;
+            return @as(Real, @intCast(a.repr)) + min;
         }
 
         pub fn format(a: A, comptime fmt: []const u8, options: std.fmt.FormatOptions, writer: anytype) !void {
             _ = fmt;
             _ = options;
             return std.fmt.formatInt(a.real(), 10, .lower, .{}, writer);
+        }
+
+        pub fn neg(a: A) Neg() {
+            @setRuntimeSafety(builtin.mode == .Debug);
+            const R = Neg();
+            var x = @as(R.Repr, a.repr);
+            x += (A.min - R.min);
+            x -= a.repr;
+            x = safe_sub(x, A.min);
+            x -= a.repr;
+            x = safe_sub(x, A.min);
+            return .{ .repr = x };
+        }
+
+        fn Neg() type {
+            const l = @max(std.math.absCast(min), std.math.absCast(max));
+            return int(-l, l);
         }
     };
 }
@@ -63,3 +80,13 @@ pub const @"i8" = from(i8);
 pub const @"i16" = from(i16);
 pub const @"i32" = from(i32);
 pub const @"i64" = from(i64);
+
+//
+//
+
+inline fn safe_sub(x: anytype, y: anytype) @TypeOf(x) {
+    if (y >= 0) {
+        return x - @as(@TypeOf(x), @intCast(y));
+    }
+    return x + @as(@TypeOf(x), @intCast(-y));
+}

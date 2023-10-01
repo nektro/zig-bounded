@@ -54,3 +54,21 @@ test "int.add const" {
     const z = x.add(y);
     try expect(z, 30, 30, 0, 30);
 }
+
+test "int.neg 1" {
+    const x = bounded.int(1, 100).from(42); //41
+    const z = x.neg();
+    try expect(z, -100, 100, 58, -42);
+}
+
+test "int.neg 2" {
+    const x = bounded.int(-3, 7).from(2); //5
+    const z = x.neg();
+    try expect(z, -7, 7, 5, -2);
+}
+
+test "int.neg 3" {
+    const x = bounded.int(-3, 7).from(-2); //1
+    const z = x.neg();
+    try expect(z, -7, 7, 9, 2);
+}
