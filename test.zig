@@ -1,6 +1,10 @@
 const std = @import("std");
 const bounded = @import("bounded");
 
+fn expectEqual(actual: anytype, expected: @TypeOf(actual)) !void {
+    return std.testing.expectEqual(expected, actual);
+}
+
 fn expect(
     z: anytype,
     comptime z_min: comptime_int,
@@ -9,10 +13,10 @@ fn expect(
     comptime z_real: comptime_int,
 ) !void {
     const Z = @TypeOf(z);
-    try std.testing.expect(Z.min == z_min);
-    try std.testing.expect(Z.max == z_max);
-    try std.testing.expect(z.repr == z_repr);
-    try std.testing.expect(z.real() == z_real);
+    try expectEqual(Z.min, z_min);
+    try expectEqual(Z.max, z_max);
+    try expectEqual(z.repr, z_repr);
+    try expectEqual(z.real(), z_real);
     try std.testing.expectFmt(std.fmt.comptimePrint("{d}", .{z_real}), "{}", .{z});
 }
 
