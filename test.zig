@@ -53,3 +53,47 @@ test "int.add const" {
     try std.testing.expect(Z.max == 30);
     try std.testing.expect(z.repr == 0);
 }
+
+test "int.sub xy" {
+    const x = bounded.int(1, 100).from(42);
+    const y = bounded.int(-3, 7).from(2);
+    const z = x.sub(y);
+    const Z = @TypeOf(z);
+
+    try std.testing.expect(Z.min == -6);
+    try std.testing.expect(Z.max == 103);
+    try std.testing.expect(z.repr == 36);
+}
+
+test "int.sub minimum xy" {
+    const x = bounded.int(1, 100).from(1);
+    const y = bounded.int(-3, 7).from(-3);
+    const z = x.sub(y);
+    const Z = @TypeOf(z);
+
+    try std.testing.expect(Z.min == -6);
+    try std.testing.expect(Z.max == 103);
+    try std.testing.expect(z.repr == 0);
+}
+
+test "int.sub maximum xy" {
+    const x = bounded.int(1, 100).from(100);
+    const y = bounded.int(-3, 7).from(7);
+    const z = x.sub(y);
+    const Z = @TypeOf(z);
+
+    try std.testing.expect(Z.min == -6);
+    try std.testing.expect(Z.max == 103);
+    try std.testing.expect(z.repr == 89);
+}
+
+test "int.sub const" {
+    const x = bounded.constant(10);
+    const y = bounded.constant(20);
+    const z = x.sub(y);
+    const Z = @TypeOf(z);
+
+    try std.testing.expect(Z.min == -10);
+    try std.testing.expect(Z.max == -10);
+    try std.testing.expect(z.repr == 0);
+}

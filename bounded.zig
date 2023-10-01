@@ -28,6 +28,13 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
             const P = R.Repr;
             return .{ .repr = @as(P, a.repr) + @as(P, b.repr) };
         }
+
+        pub fn sub(a: Self, b: anytype) int(Self.min - @TypeOf(b).max, Self.max - @TypeOf(b).min) {
+            @setRuntimeSafety(false);
+            const R = int(Self.min - @TypeOf(b).min, Self.max - @TypeOf(b).max);
+            const P = R.Repr;
+            return .{ .repr = @as(P, a.repr) - @as(P, b.repr) };
+        }
     };
 }
 
