@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - build.zig
+      - test.zig
+      - bounded.zig
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: "recursive"
+
+      - name: Setup Zig
+        uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: "0.11.0"
+
+      - run: zig version
+      - run: zig env
+      - run: zig build test
