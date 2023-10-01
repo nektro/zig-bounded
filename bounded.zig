@@ -33,7 +33,10 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
 }
 
 pub fn from(comptime T: type) type {
-    return int(std.math.minInt(T), std.math.maxInt(T));
+    return switch (@typeInfo(T)) {
+        .Int => int(std.math.minInt(T), std.math.maxInt(T)),
+        else => unreachable,
+    };
 }
 
 pub fn constant(comptime x: comptime_int) int(x, x) {
