@@ -1,7 +1,7 @@
 const std = @import("std");
 
 pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type {
-    std.debug.assert(minimum <= maximum);
+    if (!(minimum <= maximum)) @compileLog(minimum, maximum); // error!
 
     return packed struct {
         repr: Repr,
