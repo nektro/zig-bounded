@@ -56,6 +56,17 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
             const l = @max(std.math.absCast(min), std.math.absCast(max));
             return int(-l, l);
         }
+
+        pub fn sub(a: A, b: anytype) int(A.min - @TypeOf(b).max, A.max - @TypeOf(b).min) {
+            @setRuntimeSafety(builtin.mode == .Debug);
+            const R = int(A.min - @TypeOf(b).max, A.max - @TypeOf(b).min);
+            return a.add(b.neg()).assumeMax(R.max);
+        }
+
+        pub fn assumeMax(a: A, comptime m: comptime_int) int(A.min, m) {
+            @setRuntimeSafety(builtin.mode == .Debug);
+            return .{ .repr = @intCast(a.repr) };
+        }
     };
 }
 

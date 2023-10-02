@@ -83,3 +83,59 @@ test "int.neg 5" {
     const z = x.neg();
     try expect(z, -8, 8, 8);
 }
+
+test "int.sub xy" {
+    const x = bounded.int(1, 100).from(42); //41
+    const y = bounded.int(-3, 7).from(2); //5
+    const z = x.sub(y);
+    try expect(z, -6, 103, 40);
+}
+
+test "int.sub yx" {
+    const x = bounded.int(1, 100).from(42); //41
+    const y = bounded.int(-3, 7).from(2); //5
+    const z = y.sub(x);
+    try expect(z, -103, 6, -40);
+}
+
+test "int.sub minimum xy" {
+    const x = bounded.int(1, 100).from(1); //0
+    const y = bounded.int(-3, 7).from(-3); //0
+    const z = x.sub(y);
+    try expect(z, -6, 103, 4);
+}
+
+test "int.sub minimum yx" {
+    const x = bounded.int(1, 100).from(1); //0
+    const y = bounded.int(-3, 7).from(-3); //0
+    const z = y.sub(x);
+    try expect(z, -103, 6, -4);
+}
+
+test "int.sub maximum xy" {
+    const x = bounded.int(1, 100).from(100); //99
+    const y = bounded.int(-3, 7).from(7); //10
+    const z = x.sub(y);
+    try expect(z, -6, 103, 93);
+}
+
+test "int.sub maximum yx" {
+    const x = bounded.int(1, 100).from(100); //99
+    const y = bounded.int(-3, 7).from(7); //10
+    const z = y.sub(x);
+    try expect(z, -103, 6, -93);
+}
+
+test "int.sub const xy" {
+    const x = bounded.constant(10); //0
+    const y = bounded.constant(20); //0
+    const z = x.sub(y);
+    try expect(z, -10, -10, -10);
+}
+
+test "int.sub const yx" {
+    const x = bounded.constant(10); //0
+    const y = bounded.constant(20); //0
+    const z = y.sub(x);
+    try expect(z, 10, 10, 10);
+}
