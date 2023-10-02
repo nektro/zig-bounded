@@ -85,11 +85,13 @@ pub const @"u8" = from(u8);
 pub const @"u16" = from(u16);
 pub const @"u32" = from(u32);
 pub const @"u64" = from(u64);
+pub const @"usize" = from(usize);
 
 pub const @"i8" = from(i8);
 pub const @"i16" = from(i16);
 pub const @"i32" = from(i32);
 pub const @"i64" = from(i64);
+pub const @"isize" = from(isize);
 
 //
 //
