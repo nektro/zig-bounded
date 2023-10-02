@@ -71,3 +71,15 @@ test "int.neg 3" {
     const z = x.neg();
     try expect(z, -7, 7, 2);
 }
+
+test "int.neg 4" {
+    const x = bounded.int(-3, 7).from(7); //10
+    const z = x.neg();
+    try expect(z, -7, 7, -7);
+}
+
+test "int.neg 5" {
+    const x = bounded.int(-8, 6).from(-8); //0
+    const z = x.neg();
+    try expect(z, -8, 8, 8);
+}

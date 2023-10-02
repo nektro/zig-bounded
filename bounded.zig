@@ -47,9 +47,8 @@ pub fn int(comptime minimum: comptime_int, comptime maximum: comptime_int) type 
             var x = @as(R.Repr, a.repr);
             x += (A.min - R.min);
             x -= a.repr;
-            x = safe_sub(x, A.min);
+            x = safe_sub(x, A.min * 2);
             x -= a.repr;
-            x = safe_sub(x, A.min);
             return .{ .repr = x };
         }
 
